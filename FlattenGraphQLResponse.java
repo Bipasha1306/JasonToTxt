@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class FlattenGraphQLResponse {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         // Replace "your-file.yml" with the actual YAML file path
         String filePath = "application.yml";
 
@@ -16,8 +16,9 @@ public class FlattenGraphQLResponse {
         Map<String, String> yamlData = readYAMLFile(filePath);
 
         // Convert YAML data to JSON for both query and response
-        String queryJsonData = yamlData.get("graphqlQuery");
-        String responseJsonData = yamlData.get("graphqlResponse");
+
+        String queryJsonData = (String) yamlData.get("graphqlQuery");
+        String responseJsonData = (String) yamlData.get("graphqlResponse");
 
         JsonNode queryJsonNode = parseJSON(queryJsonData);
         JsonNode responseJsonNode = parseJSON(responseJsonData);
@@ -35,13 +36,25 @@ public class FlattenGraphQLResponse {
         writeToFile(flattenedData, "output.txt");
     }
 
-    private static Map<String, String> readYAMLFile(String filePath) throws FileNotFoundException {
+    private static Map<String, String> readYAMLFile(String filePath) {
         // Load YAML file into Map
-            InputStream inputStream = new FileInputStream(filePath);
+        try (InputStream inputStream = FlattenGraphQLResponse.class.getClassLoader().getResourceAsStream(filePath);
+             InputStreamReader streamReader = new InputStreamReader(inputStream);
+             BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+
+            StringBuilder yamlContent = new StringBuilder();
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                yamlContent.append(line).append("\n");
+            }
+
             Yaml yaml = new Yaml();
-            return yaml.load(inputStream);
+            return yaml.load(yamlContent.toString());
 
-
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading YAML file", e);
+        }
     }
 
     private static JsonNode parseJSON(String jsonData) {

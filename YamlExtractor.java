@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.parser.Parser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,8 +92,25 @@ public class YamlExtractor {
                     "    ]\n" +
                     "  }";
 
-            // Parse JSON strings into JSON objects
-            JSONObject json2 = new JSONObject(response2);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response2);
+
+            // Get the content of the "accountByIds" array and convert it to an object
+            JsonNode accountByIds = jsonNode.get("accountByIds").get(0);
+
+            // Remove the "accountByIds" array from the original JSON
+            ((com.fasterxml.jackson.databind.node.ObjectNode) jsonNode).remove("accountByIds");
+
+            // Add the content of "accountByIds" as an object under "accountByIds" key
+            ((com.fasterxml.jackson.databind.node.ObjectNode) jsonNode).set("accountByIds", accountByIds);
+
+            // Convert the modified JSON back to a string
+            String result = objectMapper.writeValueAsString(jsonNode);
+
+            System.out.println(result);
+            JSONObject json2 = new JSONObject(result);
+            System.out.println(result);
+
             System.out.println("Response 1: " + json1.toString());
             System.out.println("Response 2: " + json2.toString());
             // Create a new JSON object for the result
