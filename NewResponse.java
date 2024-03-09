@@ -3,8 +3,8 @@ import org.json.JSONObject;
 public class NewResponse {
 
     public static void main(String[] args) {
-        JSONObject json1 = new JSONObject("{\"accountByIds\":{\"managementResponsibilityCenter\":{\"code\":\"EQL\",\"name\":\"Equity JPM London\"},\"investmentSubVehicle\":{\"code\":\"SEPM\",\"investmentVehicle\":{\"code\":\"SEPM\"}},\"profitabilityChannel\":null}}");
-        JSONObject json2 = new JSONObject("{\"accountByIds\":{\"managementResponsibilityCenter\":{\"code\":{},\"name\":{}},\"investmentSubVehicle\":{\"code\":{},\"investmentVehicle\":{\"code\":{}}},\"profitabilityChannel\":{\"code\":{},\"name\":{}}}}");
+        JSONObject json1 = new JSONObject("{\"accountByIds\":{\"code\":\"11247\",\"accountStatusType\":{\"code\":\"A\",\"name\":\"Active\"},\"endDate\":null,\"profitabilityChannel\":null,\"briefName\":\"11247 -2\",\"accountType\":{\"code\":\"N\"},\"managementResponsibilityCenter\":{\"code\":\"EQL\",\"name\":\"Equity JPM London\"},\"accountId\":23980,\"investmentSubVehicle\":{\"code\":\"SEPM\",\"investmentVehicle\":{\"code\":\"SEPM\"}},\"primarySystem\":{\"code\":\"WSSL\"},\"fundingEvent\":{\"date\":null,\"intendedFundingDate\":null},\"subBusinessSegment\":{\"code\":\"MFOS\"},\"shortName\":\"11247 -2- short nm\",\"startDate\":\"1997-11-19\",\"longName\":\"11247 - 2 - long nm\"}}");
+        JSONObject json2 = new JSONObject("{\"accountByIds\":{\"code\":{},\"accountStatusType\":{\"code\":{},\"name\":{}},\"endDate\":{},\"profitabilityChannel\":{\"code\":{},\"name\":{}},\"briefName\":{},\"accountType\":{\"code\":{}},\"managementResponsibilityCenter\":{\"code\":{},\"name\":{}},\"accountId\":{},\"investmentSubVehicle\":{\"code\":{},\"investmentVehicle\":{\"code\":{}}},\"primarySystem\":{\"code\":{}},\"fundingEvent\":{\"date\":{},\"intendedFundingDate\":{}},\"shortName\":{},\"startDate\":{},\"longName\":{}}}");
 
         JSONObject mergedJson = mergeJsons(json2, json1);
         System.out.println(mergedJson.toString(4));
